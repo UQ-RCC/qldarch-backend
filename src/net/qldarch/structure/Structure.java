@@ -31,6 +31,7 @@ public class Structure extends ArchObj {
 
   private static final String LOCATION = "location";
   private static final String COMPLETION = "completion";
+  private static final String COMPLETIONPD = "completionpd";
   private static final String LATITUDE = "latitude";
   private static final String LONGITUDE = "longitude";
   private static final String AUSTRALIAN = "australian";
@@ -40,6 +41,7 @@ public class Structure extends ArchObj {
   private String location;
 
   private Date completion;
+  private Short completionpd;
 
   @Column(name="lat")
   private Double latitude;
@@ -64,6 +66,7 @@ public class Structure extends ArchObj {
     }
     if(completion != null) {
       m.put(COMPLETION, completion);
+      m.put(COMPLETIONPD, completionpd);
     }
     if(latitude != null) {
       m.put(LATITUDE, latitude);
@@ -84,10 +87,15 @@ public class Structure extends ArchObj {
       changed = true;
       location = ObjUtils.asString(m.get(LOCATION));
     }
-    if(hasChanged(m, COMPLETION, o-> DateUtil.toSqlDate(
-        ObjUtils.asDate(o, "yyyy-MM-dd")), completion)) {
+    //if(hasChanged(m, COMPLETION, o-> DateUtil.toSqlDate(ObjUtils.asDate(o, "yyyy-MM-dd")), completion)) {
+    if(hasChanged(m, COMPLETION, o-> DateUtil.toSqlDate(DateUtil.guess(ObjUtils.asString(o))), completion)) {
       changed = true;
-      completion = DateUtil.toSqlDate(ObjUtils.asDate(m.get(COMPLETION), "yyyy-MM-dd"));
+      //completion = DateUtil.toSqlDate(ObjUtils.asDate(m.get(COMPLETION), "yyyy-MM-dd"));
+      completion = DateUtil.toSqlDate(DateUtil.guess(ObjUtils.asString(m.get(COMPLETION))));
+    }
+    if(hasChanged(m, COMPLETIONPD, completionpd)) {
+      changed = true;
+      completionpd = ObjUtils.asShort(m.get(COMPLETIONPD));
     }
     if(hasChangedDouble(m, LATITUDE, latitude)) {
       changed = true;
@@ -125,6 +133,7 @@ public class Structure extends ArchObj {
     super.copyFrom(m);
     location = ObjUtils.asString(m.get(LOCATION));
     completion = DateUtil.toSqlDate(DateUtil.guess(ObjUtils.asString(m.get(COMPLETION))));
+    completionpd = ObjUtils.asShort(m.get(COMPLETIONPD));
     latitude = ObjUtils.asDouble(m.get(LATITUDE));
     longitude = ObjUtils.asDouble(m.get(LONGITUDE));
     australian = ObjUtils.asBoolean(m.get(AUSTRALIAN), true);

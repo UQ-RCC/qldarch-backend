@@ -36,6 +36,22 @@ public class ObjUtils {
     return b!=null?b:defaultValue;
   }
 
+  public static Short asShort(Object o) {
+    if(o == null) {
+      return null;
+    } else if(o instanceof Number) {
+      return ((Number) o).shortValue();
+    } else if(o instanceof String) {
+      try {
+        return Short.valueOf((String)o);
+      } catch(Exception e) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   public static Long asLong(Object o) {
     if(o == null) {
       return null;
@@ -43,7 +59,7 @@ public class ObjUtils {
       return ((Number) o).longValue();
     } else if(o instanceof String) {
       try {
-        return new Long((String)o);
+        return Long.valueOf((String)o);
       } catch(Exception e) {
         return null;
       }
@@ -69,7 +85,7 @@ public class ObjUtils {
       return ((Number)value).doubleValue();
     } else if(value instanceof String) {
       try {
-        return new Double((String)value);
+        return Double.valueOf((String)value);
       } catch(Exception e) {
         return null;
       }
@@ -123,7 +139,7 @@ public class ObjUtils {
       return ((Number) o).intValue();
     } else if(o instanceof String) {
       try {
-        return new Integer((String) o);
+        return Integer.valueOf((String) o);
       } catch(Exception e) {
         return null;
       }
