@@ -21,7 +21,7 @@ from
   left outer join images on structure.id = images.depicts
   left outer join typologies on structure.id = typologies.structure
 where
-  archobj.deleted is null
+  archobj.deleted is null and archobj.pubts is not null
 order by
   structure.id
 ;

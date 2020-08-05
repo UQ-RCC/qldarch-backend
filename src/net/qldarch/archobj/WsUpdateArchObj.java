@@ -1,5 +1,7 @@
 package net.qldarch.archobj;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -23,6 +25,7 @@ import net.qldarch.interview.Utterance;
 import net.qldarch.jaxrs.ContentType;
 import net.qldarch.media.Media;
 import net.qldarch.search.update.UpdateArchObjJob;
+import net.qldarch.search.update.DeleteDocumentJob;
 import net.qldarch.search.update.SearchIndexWriter;
 import net.qldarch.security.UpdateEntity;
 import net.qldarch.security.User;
@@ -60,61 +63,78 @@ public class WsUpdateArchObj {
       final ArchObj archobj = hs.get(ArchObj.class, id);
       final Map<String, Object> m = UpdateUtils.asMap(params);
       final String comment = ObjUtils.asString(m.get("comment"));
-      if(archobj != null) {
-        try {
-          final Long reqVersion = ObjUtils.asLong(m.get("version"));
-          if((reqVersion != null) && !reqVersion.equals(archobj.getVersion()) && (archobj.getVersion() != null)) {
-            ArchObjVersion version = hs.get(ArchObjVersion.class, reqVersion);
-            if((version != null) && version.getOid().equals(archobj.getId())) {
-              archobj.copyFrom(version.getDocumentAsMap());
-              archobj.setVersion(version.getId());
-              if(archobj.updateFrom(m)) {
-                final String revertComment = String.format("reverting to version '%s' before change",
-                    version.getId());
-                final String newComment = StringUtils.isBlank(comment)?revertComment:
-                  String.format("%s (%s)", comment, revertComment);
-                VersionUtils.createNewVersion(hs, user, archobj, newComment);
-                hs.update(archobj);
-                updateIndex(archobj);
-              } else {
-                throw new RuntimeException("no change detected, rollback revert to ealier version");
-              }
-              return Response.ok().entity(archobj).build();
-            } else {
-              return Response.status(404).entity(M.of("msg","Version not found")).build();
-            }
-          } else {
-            // create an initial version in the version history if it does not exist yet
-            if(archobj.getVersion() == null) {
-              VersionUtils.createNewVersion(hs, user, archobj, "initial version");
-              hs.update(archobj);
-              updateIndex(archobj);
-            }
-            if(archobj.updateFrom(m)) {
-              VersionUtils.createNewVersion(hs, user, archobj, comment);
-              hs.update(archobj);
-              updateIndex(archobj);
-            }
-          }
-          return Response.ok().entity(archobj).build();
-        } finally {
-          archobj.postUpdate(m);
-        }
-      } else {
+      if (archobj == null) {
         return Response.status(404).entity(M.of("msg","Archive object not found")).build();
+      }
+      try {
+        final Long reqVersion = ObjUtils.asLong(m.get("version"));
+        if((reqVersion != null) && !reqVersion.equals(archobj.getVersion()) && (archobj.getVersion() != null)) {
+          ArchObjVersion version = hs.get(ArchObjVersion.class, reqVersion);
+          if((version != null) && version.getOid().equals(archobj.getId())) {
+            archobj.copyFrom(version.getDocumentAsMap());
+            archobj.setVersion(version.getId());
+            if(archobj.updateFrom(m)) {
+              final String revertComment = String.format("reverting to version '%s' before change",
+                  version.getId());
+              final String newComment = StringUtils.isBlank(comment)?revertComment:
+                String.format("%s (%s)", comment, revertComment);
+              VersionUtils.createNewVersion(hs, user, archobj, newComment);
+              hs.update(archobj);
+              updateIndex(archobj);
+            } else {
+              throw new RuntimeException("no change detected, rollback revert to earlier version");
+            }
+            return Response.ok().entity(archobj).build();
+          } else {
+            return Response.status(404).entity(M.of("msg","Version not found")).build();
+          }
+        } else {
+          // create an initial version in the version history if it does not exist yet
+          if(archobj.getVersion() == null) {
+            VersionUtils.createNewVersion(hs, user, archobj, "initial version");
+            hs.update(archobj);
+            updateIndex(archobj);
+          }
+          if(archobj.updateFrom(m)) {
+            VersionUtils.createNewVersion(hs, user, archobj, comment);
+            hs.update(archobj);
+            updateIndex(archobj);
+          } else if (m.containsKey("public")) {
+            boolean published = ObjUtils.asBoolean(m.get("public"));
+            if (published) {
+              archobj.setPubts(new Timestamp(Instant.now().toEpochMilli()));
+            } else {
+              archobj.setPubts(null);
+            }
+            hs.update(archobj);
+            updateIndex(archobj);
+          }
+        }
+        return Response.ok().entity(archobj).build();
+      } finally {
+        archobj.postUpdate(m);
       }
     });
   }
 
   private void updateIndex(ArchObj archobj) {
     if(archobj != null) {
-      try {
-        new UpdateArchObjJob(archobj).run(searchindexwriter.getWriter());
-        searchindexwriter.getWriter().commit();
-      } catch(Exception e) {
-        throw new RuntimeException("update search index failed", e);
+      if (archobj.isPublished()) {
+        try {
+          new UpdateArchObjJob(archobj).run(searchindexwriter.getWriter());
+          searchindexwriter.getWriter().commit();
+        } catch(Exception e) {
+          throw new RuntimeException("update search index failed", e);
+        }
+      } else {
+        try {
+          new DeleteDocumentJob(archobj.getId(), archobj.getType().toString()).run(searchindexwriter.getWriter());
+          searchindexwriter.getWriter().commit();
+        } catch(Exception e) {
+          throw new RuntimeException("delete search index failed", e);
+        }
+
       }
     }
   }
-
 }

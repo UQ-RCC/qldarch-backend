@@ -25,6 +25,6 @@ public class WsArticles {
   @JsonSkipField(type=Media.class, field="depicts")
   public List<Map<String, Object>> articles() throws Exception {
     return db.executeQuery("select id, label from archobj where type = 'article' and"
-        + " deleted is null order by label", Rsc::fetchAll);
+        + " deleted is null and pubts is not null order by label", Rsc::fetchAll);
   }
 }

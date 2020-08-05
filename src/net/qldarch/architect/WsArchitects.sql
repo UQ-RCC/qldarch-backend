@@ -7,6 +7,8 @@ with images as (
 select
   person.id,
   archobj.label,
+  archobj.type,
+  person.architect,
   person.preflabel,
   person.firstname,
   person.lastname,
@@ -17,7 +19,8 @@ from
   left outer join images on person.id = images.depicts
 where
  person.architect = true and
- archobj.deleted is null
+ archobj.deleted is null and
+ archobj.pubts is not null
 order by
   person.id
 ;

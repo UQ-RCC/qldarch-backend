@@ -15,7 +15,7 @@ from
   firm join archobj on firm.id = archobj.id
   left outer join images on firm.id = images.depicts
 where
-  archobj.deleted is null
+  archobj.deleted is null and archobj.pubts is not null
 order by
   firm.id
 ;

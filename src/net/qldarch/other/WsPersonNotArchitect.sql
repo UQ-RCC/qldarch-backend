@@ -16,7 +16,7 @@ from
   left outer join images on person.id = images.depicts
 where
  person.architect = false and
- archobj.deleted is null
+ archobj.deleted is null and archobj.pubts is not null
 order by
   person.id
 ;

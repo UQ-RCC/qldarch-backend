@@ -14,6 +14,7 @@ import javax.ws.rs.ext.Provider;
 import lombok.extern.slf4j.Slf4j;
 import net.qldarch.guice.Guice;
 import net.qldarch.hibernate.HS;
+import net.qldarch.util.M;
 
 @UpdateEntity
 @Provider
@@ -27,7 +28,7 @@ public class UpdateEntityFilter implements ContainerRequestFilter {
   private HS hs;
 
   private void deny(ContainerRequestContext crc) {
-    crc.abortWith(Response.status(403).build());
+    crc.abortWith(Response.status(403).entity(M.of("msg", "Unauthorised user")).build());
   }
 
   private void abort(ContainerRequestContext crc) {
@@ -36,7 +37,7 @@ public class UpdateEntityFilter implements ContainerRequestFilter {
 
   private Long getIdFromRequest(ContainerRequestContext crc) {
     try {
-      return new Long(crc.getUriInfo().getPathParameters().getFirst("id"));
+      return Long.valueOf(crc.getUriInfo().getPathParameters().getFirst("id"));
     } catch(Exception e) {
       return null;
     }

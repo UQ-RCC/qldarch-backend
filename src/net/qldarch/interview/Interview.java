@@ -2,6 +2,7 @@ package net.qldarch.interview;
 
 import static net.qldarch.util.UpdateUtils.hasChanged;
 
+import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,6 +24,9 @@ import lombok.EqualsAndHashCode;
 import net.qldarch.archobj.ArchObj;
 import net.qldarch.person.Person;
 import net.qldarch.util.ObjUtils;
+import net.qldarch.relationship.TranscriptRelationshipSetup;
+import net.qldarch.guice.Guice;
+
 
 @Entity
 @Table(name="interview")
@@ -52,6 +57,13 @@ public class Interview extends ArchObj {
   @OneToMany(mappedBy="interview")
   @OrderBy("time, id")
   private SortedSet<Utterance> transcript;
+
+  @Override
+  protected void setup() {
+    // Create the transcript annotation
+    final TranscriptRelationshipSetup transcriptSetup = Guice.injector().getInstance(TranscriptRelationshipSetup.class);
+    transcriptSetup.setup(this);
+  }
 
   @Override
   public Map<String, Object> asMap() {

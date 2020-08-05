@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
+import java.sql.Timestamp;
+
 
 // ImmutableMap does not support null values, so use HashMaps...
 public class M {
@@ -118,6 +120,66 @@ public class M {
     Map<K,V> result = new HashMap<>(map);
     result.replace(key, op.apply(map.get(key)));
     return result;
+  }
+
+
+  public static Long getLong(Map<String, Object> m, String key) {
+    Object o = m.get(key);
+    return (o instanceof Number)?((Number)o).longValue():null;
+  }
+
+  public static Long getLongNotNull(Map<String, Object> m, String key) {
+    Long l = getLong(m, key);
+    if(l!=null) {
+      return l;
+    } else {
+      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
+    }
+  }
+
+  public static Integer getInt(Map<String, Object> m, String key) {
+    Object o = m.get(key);
+    if(o != null) {
+      if(o instanceof Number) {
+        return ((Number)o).intValue();
+      }
+      return null;
+    } else {
+      return null;
+    }
+  }
+
+  public static String getString(Map<String, Object> m, String key) {
+    Object o = m.get(key);
+    return (o instanceof String)?(String)o:null;
+  }
+
+  public static String getStringNotNull(Map<String, Object> m, String key) {
+    String s = getString(m, key);
+    if(s!=null) {
+      return s;
+    } else {
+      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
+    }
+  }
+
+  public static Timestamp getTimestamp(Map<String, Object> m, String key) {
+    Object o = m.get(key);
+    return (o instanceof Timestamp)?(Timestamp)o:null;
+  }
+
+  public static Timestamp getTimestampNotNull(Map<String, Object> m, String key) {
+    Timestamp t = getTimestamp(m, key);
+    if(t!=null) {
+      return t;
+    } else {
+      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
+    }
+  }
+
+  public static boolean getBoolean(Map<String, Object> m, String key) {
+    Object o = m.get(key);
+    return (o instanceof Boolean)?(Boolean)o:false;
   }
 
 }

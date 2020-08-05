@@ -3,9 +3,12 @@ package net.qldarch.hibernate;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.persistence.Entity;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -130,6 +133,10 @@ public class HS {
 
   public <T> T get(Class<T> entityType, Serializable id) {
     return execute(session -> session.get(entityType, id));
+  }
+
+  public <T> Stream<T> getStream(HWork<Stream<T>> cb) {
+    return execute(cb);
   }
 
   public void update(Object o) {

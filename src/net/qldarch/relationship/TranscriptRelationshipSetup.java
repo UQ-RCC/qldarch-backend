@@ -20,82 +20,23 @@ public class TranscriptRelationshipSetup {
   @Inject
   private Db db;
 
-  private Long getLong(Map<String, Object> m, String key) {
-    Object o = m.get(key);
-    return (o instanceof Number)?((Number)o).longValue():null;
-  }
-
-  private Long getLongNotNull(Map<String, Object> m, String key) {
-    Long l = getLong(m, key);
-    if(l!=null) {
-      return l;
-    } else {
-      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
-    }
-  }
-
-  private Integer getInt(Map<String, Object> m, String key) {
-    Object o = m.get(key);
-    if(o != null) {
-      if(o instanceof Number) {
-        return ((Number)o).intValue();
-      }
-      return null;
-    } else {
-      return null;
-    }
-  }
-
-  private String getString(Map<String, Object> m, String key) {
-    Object o = m.get(key);
-    return (o instanceof String)?(String)o:null;
-  }
-
-  private String getStringNotNull(Map<String, Object> m, String key) {
-    String s = getString(m, key);
-    if(s!=null) {
-      return s;
-    } else {
-      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
-    }
-  }
-
-  private Timestamp getTimestamp(Map<String, Object> m, String key) {
-    Object o = m.get(key);
-    return (o instanceof Timestamp)?(Timestamp)o:null;
-  }
-
-  private Timestamp getTimestampNotNull(Map<String, Object> m, String key) {
-    Timestamp t = getTimestamp(m, key);
-    if(t!=null) {
-      return t;
-    } else {
-      throw new RuntimeException(String.format("unexpected null for key %s in map %s", key, m));
-    }
-  }
-
-  private boolean getBoolean(Map<String, Object> m, String key) {
-    Object o = m.get(key);
-    return (o instanceof Boolean)?(Boolean)o:false;
-  }
-
   private TranscriptRelationship createTR(Map<String, Object> m) {
     final TranscriptRelationship r = new TranscriptRelationship();
-    r.setId(getLongNotNull(m, "relationshipId"));
-    r.setRelationship(getStringNotNull(m, "relationship"));
-    r.setNote(getString(m, "note"));
-    r.setFrom(getInt(m, "fromyear"));
-    r.setUntil(getInt(m, "untilyear"));
-    r.setSubject(getLongNotNull(m, "subject"));
-    r.setSubjectlabel(getStringNotNull(m, "subjectlabel"));
-    r.setSubjecttype(getStringNotNull(m, "subjecttype"));
-    r.setSubjectarchitect(getBoolean(m, "subjectarchitect"));
-    r.setObject(getLongNotNull(m, "object"));
-    r.setObjectlabel(getStringNotNull(m, "objectlabel"));
-    r.setObjecttype(getStringNotNull(m, "objecttype"));
-    r.setObjectarchitect(getBoolean(m, "objectarchitect"));
-    r.setUtterance(getLongNotNull(m, "utterance"));
-    r.setCreated(getTimestampNotNull(m, "created"));
+    r.setId(M.getLongNotNull(m, "relationshipId"));
+    r.setRelationship(M.getStringNotNull(m, "relationship"));
+    r.setNote(M.getString(m, "note"));
+    r.setFrom(M.getInt(m, "fromyear"));
+    r.setUntil(M.getInt(m, "untilyear"));
+    r.setSubject(M.getLongNotNull(m, "subject"));
+    r.setSubjectlabel(M.getStringNotNull(m, "subjectlabel"));
+    r.setSubjecttype(M.getStringNotNull(m, "subjecttype"));
+    r.setSubjectarchitect(M.getBoolean(m, "subjectarchitect"));
+    r.setObject(M.getLongNotNull(m, "object"));
+    r.setObjectlabel(M.getStringNotNull(m, "objectlabel"));
+    r.setObjecttype(M.getStringNotNull(m, "objecttype"));
+    r.setObjectarchitect(M.getBoolean(m, "objectarchitect"));
+    r.setUtterance(M.getLongNotNull(m, "utterance"));
+    r.setCreated(M.getTimestampNotNull(m, "created"));
     return r;
   }
 

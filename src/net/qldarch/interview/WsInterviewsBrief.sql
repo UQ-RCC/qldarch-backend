@@ -17,7 +17,7 @@ from
   join archobj on interviewee.interviewee = archobj.id
   join images on images.depicts = interviewee.interviewee
 where
-  archobj.deleted is null
+  archobj.deleted is null and archobj.pubts is not null
 order by
   interviewee.interviewee,
   interviewee.interview

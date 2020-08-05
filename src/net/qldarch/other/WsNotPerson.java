@@ -23,6 +23,6 @@ public class WsNotPerson {
   public List<Map<String, Object>> get() throws Exception {
     return db.executeQuery("select id, label, summary, note, type from archobj where type != 'article' "
         + "and type != 'person' and type != 'firm' and type != 'structure' "
-        + "and type != 'interview' and deleted is null order by id", Rsc::fetchAll);
+        + "and type != 'interview' and deleted is null and pubts is not null order by id", Rsc::fetchAll);
   }
 }

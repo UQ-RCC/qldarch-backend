@@ -33,7 +33,7 @@ public class RandomString {
   }
 
   public String next() {
-    String randomNum = new Integer(prng.nextInt()).toString();
+    String randomNum = Integer.toString(prng.nextInt());
     byte[] result =  sha.digest(randomNum.getBytes());
     return hexEncode(result);
   }

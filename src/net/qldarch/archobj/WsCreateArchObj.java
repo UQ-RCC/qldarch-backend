@@ -73,11 +73,13 @@ public class WsCreateArchObj {
         hs.save(object);
         object.postCreate(m);
         VersionUtils.createNewVersion(hs, user, object, "initial version");
-        try {
-          new UpdateArchObjJob(object).run(searchindexwriter.getWriter());
-          searchindexwriter.getWriter().commit();
-        } catch(Exception e) {
-          throw new RuntimeException("update search index failed", e);
+        if (object.isPublished()) {
+          try {
+            new UpdateArchObjJob(object).run(searchindexwriter.getWriter());
+            searchindexwriter.getWriter().commit();
+          } catch(Exception e) {
+            throw new RuntimeException("update search index failed", e);
+          }
         }
         return Response.ok().entity(object).build();
       } catch(Exception e) {

@@ -64,6 +64,7 @@ public class WsDeleteRelationship {
                       new Gson().toJson(new Json().toJsonTree(relationship))));
             }
             db.execute("delete from interviewrelationship where id = :id", M.of("id", r.getId()));
+            db.execute("delete from articlerelationship where id = :id", M.of("id", r.getId()));
             db.execute("delete from relationship where id = :id", M.of("id", r.getId()));
           });
           return Response.ok().entity(M.of("id", r.getId())).build();

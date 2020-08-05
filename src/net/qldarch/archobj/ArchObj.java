@@ -66,6 +66,8 @@ public class ArchObj implements Updatable {
   @JsonExclude
   private Timestamp deleted;
 
+  private Timestamp pubts;
+
   private Long owner;
 
   @OneToMany(mappedBy="depicts")
@@ -126,9 +128,20 @@ public class ArchObj implements Updatable {
     return deleted != null;
   }
 
+  public boolean isPublished() {
+    return pubts != null;
+  }
+
   @Override
   public boolean canUpdate(User user) {
     return (user != null) && (user.isAdmin() ||(user.isEditor() && (getLocked() == null)));
+  }
+
+  public boolean canRead(User user) {
+    return isPublished() || (user != null && (
+        user.isAdmin() || 
+        (user.isEditor() && getLocked() == null) ||
+        user.getId().equals(getOwner())));
   }
 
   protected void postCreate(Map<String, Object> m) {
@@ -139,4 +152,7 @@ public class ArchObj implements Updatable {
 
   }
 
+  protected void setup() {
+
+  }
 }
