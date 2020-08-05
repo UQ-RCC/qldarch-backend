@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context docBase="/opt/qldarch/backend/qldarch.war" path="" reloadable="false">
+  <Resources cachingAllowed="true" cacheMaxSize="102400"/>
+  <Resource name="jdbc/qldarch" auth="Container" type="javax.sql.DataSource"
+    maxTotal="50" maxIdle="10" maxWaitMillis="10000"
+    username="qldarch" password="qldarch" driverClassName="org.postgresql.Driver"
+    url="jdbc:postgresql://127.0.0.1:5432/qldarch"
+    removeAbandonedOnBorrow="true" removeAbandonedOnMaintenance="true" removeAbandonedTimeout="60" logAbandoned="true"/>
+  <Parameter name="hibernate.show.sql" value="false"/>
+  <Parameter name="index" value="/opt/qldarch/index"/>
+  <Parameter name="media.archive" value="/opt/qldarch/archive"/>
+  <Parameter name="media.upload" value="/opt/qldarch/upload"/>
+  <Parameter name="baseUrl" value="https://qldarch.net/"/>
+  <Parameter name="os.container.url" value="https://swift.rc.nectar.org.au:8888/v1/AUTH_123/qldarch"/>
+  <Parameter name="os.tenant" value="ostenant"/>
+  <Parameter name="os.user" value="osuser"/>
+  <Parameter name="os.password" value="ospass"/>
+  <Parameter name="os.sync.mode" value="off"/>
+  <Parameter name="os.sync.deleteAfterSync" value="true"/>
+  <Parameter name="smtp.host" value="127.0.0.1"/>
+  <Parameter name="frontend" value="/opt/qldarch/frontend"/>
+  <Parameter name="recaptcha.url" value="https://www.google.com/recaptcha/api/siteverify"/>
+  <Parameter name="recaptcha.secret" value="secret"/>
+</Context>
