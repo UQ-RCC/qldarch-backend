@@ -14,14 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
+      - name: Set version
+        run: echo "latest" > version.txt
+
       - name: Build with Ant
         run: ant clean build
 
       - name: Git tag
         run: git tag -f snapshot && git push --tags -f
-
-      - name: Set version
-        run: echo "latest" > version.txt
 
       - uses: meeDamian/github-release@2.0
         with:
