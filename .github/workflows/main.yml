@@ -31,4 +31,4 @@ jobs:
           prerelease: true
           gzip: false
           allow_override: true
-          files: qldarch-latest.war
+          files: build/qldarch-latest.war
