@@ -73,7 +73,7 @@ public class UpdateMediaJob extends CancelableIndexUpdateJob {
           writer.addDocument(DocumentUtils.createDocument(m));
         }
       } catch(Exception e) {
-        log.debug(e);
+        log.error("Update index failed", e);
         throw new RuntimeException("failed to update index with media object "+media.getId());
       }
     }
