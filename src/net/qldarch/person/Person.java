@@ -97,7 +97,7 @@ public class Person extends ArchObj {
     firstname = ObjUtils.asString(m.get(FIRST));
     lastname = ObjUtils.asString(m.get(LAST));
     preflabel = ObjUtils.asString(m.get(PREFLABEL));
-    practicedinqueensland = ObjUtils.asBoolean(m.get(PIQ), true);
-    architect = ObjUtils.asBoolean(m.get(ARCHITECT), true);
+    practicedinqueensland = ObjUtils.asBoolean(m.get(PIQ), false);
+    architect = ObjUtils.asBoolean(m.get(ARCHITECT), false);
   }
 }
