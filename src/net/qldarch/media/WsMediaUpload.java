@@ -273,18 +273,25 @@ public class WsMediaUpload {
     return isIntvwTscp;
   }
 
-  private double maxPerLblByStrDist(Set<Person> persons, String str) {
-    List<Double> distances = new ArrayList<Double>();
-    for(Person p : persons) {
-      distances.add(StringUtils.getJaroWinklerDistance(p.getLabel(), str));
-    }
-    return Collections.max(distances);
-  }
+  // private double maxPerLblByStrDist(Set<Person> persons, String str) {
+  //   List<Double> distances = new ArrayList<Double>();
+  //   for(Person p : persons) {
+  //     distances.add(StringUtils.getJaroWinklerDistance(p.getLabel(), str));
+  //   }
+  //   return Collections.max(distances);
+  // }
 
   private Person selectPerByInit(Set<Person> persons, String initial) {
-    double maxDistance = maxPerLblByStrDist(persons, initial);
+    //double maxDistance = maxPerLblByStrDist(persons, initial);
+    final double THRESHOLD = 0.0001;
+    double maxDistance = 0;
     for(Person p : persons) {
-      if(maxDistance == StringUtils.getJaroWinklerDistance(p.getLabel(), initial)) {
+      double d = StringUtils.getJaroWinklerDistance(p.getLabel().toUpperCase(), initial);
+      if (d > maxDistance) maxDistance = d;
+    }
+    for(Person p : persons) {
+      double d = StringUtils.getJaroWinklerDistance(p.getLabel().toUpperCase(), initial);
+      if(Math.abs(maxDistance - d) < THRESHOLD) {
         return p;
       }
     }
