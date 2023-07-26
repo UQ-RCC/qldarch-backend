@@ -82,7 +82,7 @@ public class WsResetPassword {
       Session session = Session.getDefaultInstance(properties);
       MimeMessage message = new MimeMessage(session);
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
-      message.setFrom(new InternetAddress("no-reply@qldarch.net"));
+      message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
       message.setSubject("Qldarch Password Reset");
       message.setContent(msg, "text/html; charset=utf-8");
       Transport.send(message);

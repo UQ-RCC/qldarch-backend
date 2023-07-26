@@ -55,7 +55,7 @@ public class SignUp {
       Session session = Session.getDefaultInstance(properties);  
       MimeMessage message = new MimeMessage(session);  
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-      message.setFrom(new InternetAddress("no-reply@qldarch.net"));
+      message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
       message.setSubject("Qldarch Account Activation");
       final String content = "Click <a href=\"%sws/account/activate?id=%s&code=%s\">here"
           + "</a> to activate your account.";

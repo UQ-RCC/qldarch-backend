@@ -44,7 +44,7 @@ public class MessageContact {
           }
         }
       });
-      message.setFrom(new InternetAddress("no-reply@qldarch.net"));
+      message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
       message.setSubject(subject);
       message.setContent(msg, "text/html; charset=utf-8");
       Transport.send(message);
