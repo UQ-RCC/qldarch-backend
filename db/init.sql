@@ -205,6 +205,7 @@ CREATE TABLE interview (
     id integer PRIMARY KEY,
     interviewid integer,
     location text,
+    interviewdate date,
     FOREIGN KEY (id) REFERENCES archobj(id)
 );
 
@@ -534,7 +535,7 @@ wordcloud
 COPY firm (id, firmid, australian, startdate, enddate, precededby, succeededby) FROM stdin;
 \.
 
-COPY interview (id, interviewid, location) FROM stdin;
+COPY interview (id, interviewid, location, interviewdate) FROM stdin;
 \.
 
 COPY interviewee (interview, interviewee) FROM stdin;

@@ -3,6 +3,8 @@ package net.qldarch.interview;
 import static net.qldarch.util.UpdateUtils.hasChanged;
 
 import javax.inject.Inject;
+
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.qldarch.archobj.ArchObj;
+import net.qldarch.db.Column;
 import net.qldarch.person.Person;
+import net.qldarch.util.DateUtil;
 import net.qldarch.util.ObjUtils;
 import net.qldarch.relationship.TranscriptRelationshipSetup;
 import net.qldarch.guice.Guice;
@@ -35,10 +39,15 @@ import net.qldarch.guice.Guice;
 public class Interview extends ArchObj {
 
   private static final String LOCATION = "location";
+  private static final String INTERVIEWDATE = "interviewdate";
   private static final String INTERVIEWEE = "interviewee";
   private static final String INTERVIEWER = "interviewer";
 
   private String location;
+  
+  @Column(name="interviewdate")
+  private Date interviewdate;
+  
 
   @ManyToMany
   @JoinTable(
@@ -71,6 +80,9 @@ public class Interview extends ArchObj {
     if(StringUtils.isNotBlank(location)) {
       m.put(LOCATION, location);
     }
+    if(interviewdate != null) {
+      m.put(INTERVIEWDATE, interviewdate);
+    }
     return m;
   }
 
@@ -80,6 +92,15 @@ public class Interview extends ArchObj {
     if(hasChanged(m, LOCATION, location)) {
       changed = true;
       location = ObjUtils.asString(m.get(LOCATION));
+    }
+    /* if(hasChanged(m, INTERVIEWDATE, interviewdate)) {
+      changed = true;
+      interviewdate = ObjUtils.asString(m.get(INTERVIEWDATE));
+    } */
+    if(hasChanged(m, INTERVIEWDATE, o-> DateUtil.toSqlDate(
+        ObjUtils.asDate(o, DateUtil.YYYY_MM_DD)), interviewdate)) {
+      changed = true;
+      interviewdate = DateUtil.toSqlDate(ObjUtils.asDate(m.get(INTERVIEWDATE), "yyyy-MM-dd"));
     }
     if(hasChanged(m, INTERVIEWEE, interviewee)) {
       changed = true;
@@ -112,6 +133,8 @@ public class Interview extends ArchObj {
   public void copyFrom(Map<String, Object> m) {
     super.copyFrom(m);
     location = ObjUtils.asString(m.get(LOCATION));
+    //interviewdate = ObjUtils.asString(m.get(INTERVIEWDATE));
+    interviewdate = DateUtil.toSqlDate(ObjUtils.asDate(m.get(INTERVIEWDATE), DateUtil.YYYY_MM_DD));
     Set<Long> intvwees = ObjUtils.asLongSet(m.get(INTERVIEWEE));
     Set<Long> intvwers = ObjUtils.asLongSet(m.get(INTERVIEWER));
     if(intvwees != null && interviewee == null) {
