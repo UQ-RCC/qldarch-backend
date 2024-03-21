@@ -1,5 +1,7 @@
 package net.qldarch.security;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 import java.util.Properties;
 
 import javax.annotation.Nullable;
@@ -40,6 +42,16 @@ public class WsResetPassword {
   @Inject
   @Cfg("smtp.host")
   private String smtpHost;
+  @Inject @Cfg("smtp.port")
+  private String smtpPort;
+  @Inject @Cfg("smtp.tls")
+  private String smtptls;
+  @Inject @Cfg("smtp.auth")
+  private String smtpAuth;
+  @Inject @Cfg("email.username")
+  private String username;
+  @Inject @Cfg("email.password")
+  private String password;
 
   private String encrypt(String s) {
     final DefaultPasswordService passwordService = new DefaultPasswordService();
@@ -79,10 +91,29 @@ public class WsResetPassword {
       String msg = (content).replace("\n", "<br/>");
       final Properties properties = new Properties();
       properties.setProperty("mail.smtp.host", smtpHost);
-      Session session = Session.getDefaultInstance(properties);
+      properties.setProperty("mail.smtp.port", smtpPort);
+      properties.setProperty("mail.smtp.auth", smtpAuth);
+      properties.setProperty("mail.smtp.starttls.enable", smtptls);
+      properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+      properties.put("mail.smtp.ssl.trust", smtpHost);
+
+      //char[] passwordArray = password.toCharArray();
+      Session session; 
+
+      if(smtpAuth.equalsIgnoreCase("true")) {
+        session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+      }else {
+        session = Session.getDefaultInstance(properties);
+      }
+
       MimeMessage message = new MimeMessage(session);
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
-      message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
+      message.setFrom(new InternetAddress(username));
       message.setSubject("Qldarch Password Reset");
       message.setContent(msg, "text/html; charset=utf-8");
       Transport.send(message);

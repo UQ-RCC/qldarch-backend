@@ -2,6 +2,8 @@ package net.qldarch.security;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -39,6 +41,16 @@ public class SignUp {
 
   @Inject @Cfg("smtp.host")
   private String smtpHost;
+  @Inject @Cfg("smtp.port")
+  private String smtpPort;
+  @Inject @Cfg("smtp.tls")
+  private String smtptls;
+  @Inject @Cfg("smtp.auth")
+  private String smtpAuth;
+  @Inject @Cfg("email.username")
+  private String username;
+  @Inject @Cfg("email.password")
+  private String password;
 
   private String activationCode() {
     return rstr.next();
@@ -52,10 +64,31 @@ public class SignUp {
     try {
       final Properties properties = new Properties();
       properties.setProperty("mail.smtp.host", smtpHost);
-      Session session = Session.getDefaultInstance(properties);  
+      properties.setProperty("mail.smtp.port", smtpPort);
+      properties.setProperty("mail.smtp.auth", smtpAuth);
+      properties.setProperty("mail.smtp.starttls.enable", smtptls);
+      properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+      properties.put("mail.smtp.ssl.trust", smtpHost);
+
+      //char[] passwordArray = password.toCharArray();
+      Session session;
+
+      if(smtpAuth.equalsIgnoreCase("true")) {
+        session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+      }else {
+        session = Session.getDefaultInstance(properties);
+      }
+
+      //Session session = Session.getDefaultInstance(properties);  
       MimeMessage message = new MimeMessage(session);  
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-      message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
+      //message.setFrom(new InternetAddress("no-reply@uq.edu.au"));
+      message.setFrom(new InternetAddress(username));
       message.setSubject("Qldarch Account Activation");
       final String content = "Click <a href=\"%sws/account/activate?id=%s&code=%s\">here"
           + "</a> to activate your account.";
