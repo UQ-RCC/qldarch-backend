@@ -36,11 +36,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartInput;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javafx.scene.control.Cell;
-
-//import javafx.scene.control.Cell;
-
-//import com.sun.rowset.internal.Row;
 
 import net.qldarch.gson.JsonSkipField;
 import net.qldarch.gson.serialize.CollectionRemoveNullsSerializer;
