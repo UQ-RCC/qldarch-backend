@@ -84,4 +84,33 @@ public class WsArchObj extends WsBase<ArchObj> {
       return Response.status(404).entity(M.of("msg", "Archive object not found")).build();
     }
   }
+
+  @GET
+  @Path("/byname/{label}")
+  @Produces(ContentType.JSON)
+  @JsonSkipField(type=Media.class, field="depicts")
+  @JsonSerializer(type=Utterance.class, serializer=InterviewUtteranceSerializer.class)
+  @JsonSerializer(path="$.precededby", serializer=SimpleArchObjSerializer.class)
+  @JsonSerializer(path="$.succeededby", serializer=SimpleArchObjSerializer.class)
+  @JsonSerializer(path="$.interviews", serializer=CollectionRemoveNullsSerializer.class)
+  @JsonSerializer(path="$.interviews.*", serializer=IdArchObjSerializer.class)
+  @JsonSerializer(path="$.interviewer.*", serializer=SimpleArchObjSerializer.class)
+  @JsonSerializer(path="$.interviewee.*", serializer=SimpleArchObjSerializer.class)
+  public Response getByLabel(@PathParam("label") String label) throws Exception {
+    
+    String sql_exact = "SELECT id,label,type FROM archobj WHERE label='"+label+"'LIMIT 1";
+    List<Map<String, Object>> results_exact =  db.executeQuery(sql_exact, Rsc::fetchAll);
+    if (!results_exact.isEmpty()) {
+      return Response.ok().entity(results_exact).build();
+    } else {
+      String sql_similar = "SELECT id,label,type FROM archobj WHERE type IN ('firm','person') AND SIMILARITY(label,'"+label+"') > 0.4";
+      List<Map<String, Object>> results_similar =  db.executeQuery(sql_similar, Rsc::fetchAll);
+      if (!results_similar.isEmpty()) {
+        return Response.ok().entity(results_similar).build();
+      } else {
+        return Response.status(401).entity(M.of("msg", "No records found")).build();
+      }
+
+    }
+  }
 }
