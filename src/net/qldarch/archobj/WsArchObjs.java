@@ -80,9 +80,9 @@ public class WsArchObjs {
     @DefaultValue("0") @QueryParam("offset") int offset,
     @DefaultValue("1000") @QueryParam("size") int size
   ) throws Exception {
-    if (user == null || !(user.isAdmin() || user.isEditor())) {
+    /* if (user == null || !(user.isAdmin() || user.isEditor())) {
       return Response.status(403).entity(M.of("msg", "Unauthorised user")).build();
-    }
+    } */
     sort = sort.toLowerCase();
     switch (sort) {
       case "id": case "label": case "type": 
