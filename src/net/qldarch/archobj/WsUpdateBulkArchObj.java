@@ -177,6 +177,10 @@ public class WsUpdateBulkArchObj {
                             }
                             if (projectObj.getCompletion()!=null)
                                 params.add("completion",projectObj.getCompletion());
+
+                            if (projectObj.getCompletionpd()!=null) {
+                                params.add("completionpd",projectObj.getCompletionpd());
+                            }
                             if (projectObj.getSummary()!=null)
                                 params.add("summary",projectObj.getSummary());
                             if (projectObj.getAssociateArchitect() !=null) {

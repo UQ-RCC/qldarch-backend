@@ -8,6 +8,9 @@ public class ProjectObj {
     @JsonProperty("australian")
     private boolean australian;
 
+    @JsonProperty("completionpd")
+    private Short completionpd;
+
     @JsonProperty("demolished")
     private boolean demolished;
 
@@ -85,6 +88,12 @@ public class ProjectObj {
     }
     public void setCompletion(Date completion ) {
         this.completion = completion;
+    }
+    public Short getCompletionpd() {
+        return completionpd;
+    }
+    public void setCompletionpd(Short completionpd) {
+        this.completionpd = completionpd;
     }
     public String getSummary() {
         return summary;
