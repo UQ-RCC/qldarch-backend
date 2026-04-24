@@ -2,6 +2,7 @@ package net.qldarch.search.update;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.index.IndexWriter;
@@ -25,7 +26,7 @@ public class UpdateArchObjJob extends CancelableIndexUpdateJob {
           Map<String, Object> m = archobj.asMap();
           m.put("category", "archobj");
           if(archobj instanceof Interview) {
-            final Set<Utterance> transcript = ((Interview)archobj).getTranscript();
+            final List<Utterance> transcript = ((Interview)archobj).getTranscript();
             if(transcript != null) {
               final String text = transcript.stream().map(
                   Utterance::getTranscript).collect(Collectors.joining(" "));

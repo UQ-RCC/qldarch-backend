@@ -2,15 +2,15 @@ package net.qldarch.security;
 
 import java.sql.Timestamp;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Cookie;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,13 +61,16 @@ public class WsActivateAccount {
     } else if(!u.isSignInAllowed()) {
       log.debug("can not activate account {} as signin is disabled on this account", u.getUsername());
       return failed();
-    } else if(u.getActivated() != null) {
-      log.debug("account is already activated {}", u.getUsername());
-      return failed();
-    } else if(!StringUtils.equals(u.getActivation(), code)) {
+    } else if(u.getActivated() != null && !StringUtils.equals(u.getActivation(), code)) {
       log.debug("account activation code wrong {}, supplied code {}", u.getUsername(), code);
       return failed();
-    } else {
+    } else if(u.getActivated() != null) {
+      log.debug("account already activated, returning success for account {}", u.getUsername());
+      return Response.ok(new ActivationResponse(true, null)).build();
+      } else if(!StringUtils.equals(u.getActivation(), code)) {
+        log.debug("account activation code wrong {}, supplied code {}", u.getUsername(), code);
+        return failed();
+    } else { 
       u.setActivated(new Timestamp(System.currentTimeMillis()));
       hs.update(u);
       log.info("activation of appuser id {} successful", id);

@@ -3,8 +3,8 @@ package net.qldarch.search;
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;

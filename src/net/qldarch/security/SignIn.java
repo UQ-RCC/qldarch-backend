@@ -1,6 +1,6 @@
 package net.qldarch.security;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.credential.DefaultPasswordService;

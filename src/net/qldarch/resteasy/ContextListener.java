@@ -3,11 +3,11 @@ package net.qldarch.resteasy;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.annotation.WebListener;
-import javax.ws.rs.Path;
-import javax.ws.rs.ext.Provider;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.ext.Provider;
 
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
 import org.reflections.Reflections;
@@ -83,7 +83,12 @@ public class ContextListener extends GuiceResteasyBootstrapServletContextListene
     if(guiceSCL != null) {
       guiceSCL.contextDestroyed(event);
     }
-    super.contextDestroyed(event);
+    //super.contextDestroyed(event);
+    try {
+        super.contextDestroyed(event);
+    } catch(NullPointerException e) {
+        log.warn("contextDestroyed NPE ignored - modules was null", e);
+    }
   }
 
   @Override

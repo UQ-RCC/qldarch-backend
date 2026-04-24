@@ -2,8 +2,8 @@ package net.qldarch.security;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
+import jakarta.inject.Inject;
+import jakarta.persistence.NoResultException;
 
 import net.qldarch.guice.Bind;
 import net.qldarch.hibernate.HS;
@@ -17,7 +17,7 @@ public class DbUserStore implements UserStore {
   @Override
   public User get(String username) {
     try {
-      return hs.execute(session -> session.createQuery("from User where name = :username",
+      return hs.execute(session -> session.createQuery("from User u where u.username = :username",
           User.class).setParameter("username", username).getSingleResult());
     } catch(NoResultException e) {
       return null;
@@ -32,7 +32,7 @@ public class DbUserStore implements UserStore {
         return u0;
       } else {
         try {
-          return hs.execute(session -> session.createQuery("from User where email = :email order by id",
+          return hs.execute(session -> session.createQuery("from User u where u.email = :email order by u.id",
               User.class).setParameter("email", usernameOrEmail).setMaxResults(1).getSingleResult());
         } catch(NoResultException e) {
           return null;

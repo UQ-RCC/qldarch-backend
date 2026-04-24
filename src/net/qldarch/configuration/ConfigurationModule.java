@@ -2,7 +2,7 @@ package net.qldarch.configuration;
 
 import java.util.Collections;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import com.google.inject.AbstractModule;
 

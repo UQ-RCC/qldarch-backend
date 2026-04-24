@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

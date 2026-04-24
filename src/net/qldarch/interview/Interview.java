@@ -2,22 +2,23 @@ package net.qldarch.interview;
 
 import static net.qldarch.util.UpdateUtils.hasChanged;
 
-import javax.inject.Inject;
-
-import java.sql.Date;
+import jakarta.inject.Inject;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
+/* import java.util.SortedSet; */
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -63,9 +64,12 @@ public class Interview extends ArchObj {
       inverseJoinColumns=@JoinColumn(name="interviewer"))
   private Set<Person> interviewer;
 
+  /*@OneToMany(mappedBy="interview")
+   @OrderBy("time, id")
+  private SortedSet<Utterance> transcript; */
   @OneToMany(mappedBy="interview")
   @OrderBy("time, id")
-  private SortedSet<Utterance> transcript;
+  private List<Utterance> transcript;
 
   @Override
   protected void setup() {

@@ -2,8 +2,8 @@ package net.qldarch.openstack;
 
 import java.io.InputStream;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;

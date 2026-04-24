@@ -2,8 +2,8 @@ package net.qldarch.search.update;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.Getter;
 import net.qldarch.guice.Bind;

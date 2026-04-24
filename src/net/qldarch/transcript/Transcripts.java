@@ -8,7 +8,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import net.qldarch.media.Mimetypes;
 

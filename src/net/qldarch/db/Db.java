@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 import net.qldarch.guice.Bind;

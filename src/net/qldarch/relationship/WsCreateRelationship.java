@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import net.qldarch.hibernate.HS;
 import net.qldarch.jaxrs.ContentType;

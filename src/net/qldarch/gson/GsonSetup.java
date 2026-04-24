@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;

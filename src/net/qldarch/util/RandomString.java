@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import net.qldarch.guice.Bind;
 

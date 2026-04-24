@@ -5,9 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.mail.internet.ContentDisposition;
-import javax.mail.internet.ParseException;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.mail.internet.ContentDisposition;
+import jakarta.mail.internet.ParseException;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -6,7 +6,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import net.qldarch.db.Db;
 import net.qldarch.db.Rsc;

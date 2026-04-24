@@ -1,6 +1,6 @@
 package net.qldarch.openstack;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;

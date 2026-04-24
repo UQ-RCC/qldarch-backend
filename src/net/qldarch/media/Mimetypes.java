@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import net.qldarch.guice.Bind;
 

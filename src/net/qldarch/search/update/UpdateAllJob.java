@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.lucene.index.IndexWriter;
 
@@ -98,7 +98,7 @@ public class UpdateAllJob extends CancelableIndexUpdateJob {
           writer.rollback();
           log.info("canceled search index update all");
         }
-        writer.close();
+        //writer.close();
       } catch(Exception e) {
         throw new RuntimeException("failed search index update all run", e);
       }

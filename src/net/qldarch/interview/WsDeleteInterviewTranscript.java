@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Response;
 
 import net.qldarch.archobj.ArchObj;
 import net.qldarch.db.Db;
@@ -44,11 +44,11 @@ public class WsDeleteInterviewTranscript {
       Interview interview = hs.get(Interview.class, id);
       if(interview != null) {
         List<InterviewRelationship> r = hs.execute(
-            session -> session.createQuery("from InterviewRelationship where interview = :interview",
+            session -> session.createQuery("from InterviewRelationship ir where ir.interview = :interview",
                 InterviewRelationship.class).setParameter("interview", interview.getId())).getResultList();
         if(r.isEmpty()) {
           List<Media> media = hs.execute(
-              session -> session.createQuery("from Media where type = 'Transcript' and depicts = :depicts",
+              session -> session.createQuery("from Media m where m.type = 'Transcript' and m.depicts = :depicts",
                   Media.class).setParameter("depicts", (ArchObj) interview)).getResultList();
           if(!media.isEmpty()) {
             db.executeVoid(con -> {

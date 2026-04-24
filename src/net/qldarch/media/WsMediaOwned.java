@@ -3,11 +3,11 @@ package net.qldarch.media;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 
 import lombok.extern.slf4j.Slf4j;
 import net.qldarch.db.Db;

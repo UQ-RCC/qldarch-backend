@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
-import javax.persistence.Entity;
-import javax.persistence.criteria.CriteriaQuery;
+import jakarta.inject.Inject;
+import jakarta.persistence.Entity;
+import jakarta.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -140,11 +140,11 @@ public class HS {
   }
 
   public void update(Object o) {
-    executeVoid(session -> session.update(o));
+    executeVoid(session -> session.merge(o));
   }
 
   public void save(Object o) {
-    executeVoid(session -> session.save(o));
+    executeVoid(session -> session.persist(o));
   }
 
 }
