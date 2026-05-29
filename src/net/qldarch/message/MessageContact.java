@@ -49,8 +49,8 @@ public class MessageContact {
       properties.setProperty("mail.smtp.auth", smtpAuth);
       properties.setProperty("mail.smtp.starttls.enable", smtptls);
       properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-      properties.put("mail.smtp.ssl.trust", "*");
-      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.smtp.ssl.trust", smtpHost);
+      properties.put("mail.smtp.ssl.checkserveridentity", "false"); 
 
       //char[] passwordArray = password.toCharArray();
       Session session; 
