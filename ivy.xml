@@ -22,7 +22,10 @@
     <dependency org="jakarta.activation" name="jakarta.activation-api" rev="2.1.2"/>
 
     <!-- Mail -->
-    <dependency org="org.apache.james" name="apache-mime4j" rev="0.8.4"/>
+    <!-- <dependency org="org.apache.james" name="apache-mime4j" rev="0.8.4"/> -->
+    <dependency org="org.apache.james" name="apache-mime4j-core" rev="0.8.11"/>
+    <dependency org="org.apache.james" name="apache-mime4j-dom" rev="0.8.11"/>
+    <dependency org="org.apache.james" name="apache-mime4j-storage" rev="0.8.11"/>
     <dependency org="jakarta.mail" name="jakarta.mail-api" rev="2.1.2"/>
     <!-- <dependency org="com.sun.mail" name="jakarta.mail" rev="2.0.1"/> -->
     <dependency org="org.eclipse.angus" name="angus-activation" rev="2.0.1"/>
@@ -110,16 +113,29 @@
 
     <dependency org="org.apache.poi" name="poi" rev="5.2.3"/>
     <dependency org="org.apache.poi" name="poi-ooxml" rev="5.2.3"/>
-
+    <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.21.1"/>
+    <dependency org="org.apache.logging.log4j" name="log4j-to-slf4j" rev="2.21.1"/>
+<!-- 
     <exclude org="org.apache.james" module="apache-mime4j-core"/>
-    <exclude org="org.apache.james" module="apache-mime4j-dom"/>
-    <exclude org="org.jboss.resteasy" module="resteasy-jaxb-provider"/>
-    <exclude org="org.slf4j" module="slf4j-simple"/>
+    <exclude org="org.apache.james" module="apache-mime4j-dom"/> -->
+  <!--   <exclude org="org.jboss.resteasy" module="resteasy-jaxb-provider"/>
+    <exclude org="org.slf4j" module="slf4j-simple"/> -->
     <!-- <exclude org="jakarta.persistence"/> -->
-    <exclude org="jakarta.servlet"/>
+    <!-- <exclude org="jakarta.servlet"/>
     <exclude org="jakarta.el"/>
     <exclude org="log4j" module="log4j"/>
     <exclude org="junit" module="junit"/>
-    <exclude org="org.apache.logging.log4j" module="log4j-api"/>
+    <exclude org="org.apache.logging.log4j" module="log4j-api"/> -->
+
+   <!--  <exclude org="org.apache.james" module="apache-mime4j-storage"/> -->
+    <exclude org="org.jboss.resteasy" module="resteasy-jaxb-provider"/>
+    <exclude org="org.slf4j" module="slf4j-simple"/>
+    <exclude org="jakarta.servlet"/>
+    <exclude org="jakarta.el"/>
+    <exclude org="jakarta.enterprise" module="jakarta.enterprise.cdi-api"/>
+    <exclude org="jakarta.ejb" module="jakarta.ejb-api"/>
+    <exclude org="log4j" module="log4j"/>
+    <exclude org="junit" module="junit"/>
+   <!--  <exclude org="org.apache.logging.log4j" module="log4j-api"/> -->
   </dependencies>
 </ivy-module>
